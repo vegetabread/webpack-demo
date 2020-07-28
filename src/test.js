@@ -1,12 +1,10 @@
 function one () {
-    console.log('one')
+   const a = ()=>{
+       return new Promise()
+   }
+   const b = ()=>{
+    return new Promise()
+    }
+    return {a,b}
 }
-function two () {
-    console.log('two')
-}
-export default {
-    one, two
-}
-export function name () {
-    console.log('name')
-}
+export default one

@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const webpack = require('webpack')
 
 module.exports = {
     mode: 'development',
@@ -14,6 +15,15 @@ module.exports = {
                     name:'[name].[ext]'
                 }
             }
+        }, { 
+            test: /\.js$/, 
+            exclude: /node_modules/, 
+            loader: 'babel-loader' ,
+            options:{
+                presets:[['@babel/preset-env',{
+                    useBuiltIns: 'usage'
+                }]]
+            }
         },
         {
             test: /\.scss$/,
@@ -26,12 +36,19 @@ module.exports = {
                 }
             },
             'sass-loader']
+        },
+        {
+            test: /\.css$/,
+            use: ['style-loader',
+                'css-loader']
         }]
     },
     devServer:{
         contentBase: './dist',
         port: 8090,
-        open: true
+        open: true,
+        hot: true,
+        hotOnly: true
     },
     plugins: [ 
         new HtmlWebpackPlugin(
@@ -39,7 +56,8 @@ module.exports = {
                 template:'src/index.html'
             }
         ),
-        new CleanWebpackPlugin()
+        new CleanWebpackPlugin(),
+        new webpack.HotModuleReplacementPlugin()
 ]
     ,
     output:{
